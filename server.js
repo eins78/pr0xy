@@ -24,28 +24,30 @@ var configData =
     {
       "name" : "Sickbeard",
       "hostname" : "sb.127.0.0.1.xip.io",
-      "remote" : "xbmc.ali:8081"
+      "remote" : "NASpi.ali:8081"
     }
   ]
 };
 
 var routerData = {}
-  , routerList = {};
+  , routesList = {};
 
-routerData.router = routerList;
-
-var FAKErouterData = 
+for (var i=0; i<configData.proxies.length; i++)
 {
-  router: {
-      'www.127.0.0.1.xip.io': '127.0.0.1:5000',
-      'sb.127.0.0.1.xip.io': 'naspi.ali:8081'
-    }
+  var hostname = configData.proxies[i].hostname;
+  var remote = configData.proxies[i].remote;
+  routesList[hostname] = remote;
+  console.info("routesList: " + JSON.stringify(routesList));
 };
+
+routerData.router = routesList;
+console.info("routerData: " + JSON.stringify(routerData))
+
 
 //
 // Http Proxy Server with Proxy Table
 //
-httpProxy.createServer(FAKErouterData).listen(80);
+httpProxy.createServer(routerData).listen(80);
 console.info('Proxy Server running at Port 80');
 
 //
