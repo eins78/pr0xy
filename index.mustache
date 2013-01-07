@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hai</title>
+    <!-- Bootstrap from CDN-->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet">
+  </head>
+  <body>
+    <style type="text/css">
+    article {
+      background-color: 
+      #fff;
+      padding: 20px;
+      margin: 0 auto;
+      -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+      border-radius: 6px;
+      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    }
+    </style>
+    <h1>Hello, world!</h1>
+    <article>
+      {{#proxies}}
+      <ul>
+        <li>{{name}}</li>
+      </ul>
+      {{/proxies}}
+    </article>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
