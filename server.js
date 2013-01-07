@@ -15,6 +15,7 @@ var net         = require('net')
 
 var configData =
 {
+  "server_name" : "proxy-service",
   "proxies" : [
     {
       "name" : "Proxy Service Listing",
