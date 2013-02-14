@@ -9,34 +9,28 @@
 
 var net         = require('net')
   , http        = require('http')
+  , path        = require('path')
+  , fs          = require('fs')
   , httpProxy   = require('http-proxy')
+  , prox        = require('flatiron').app
   , mu          = require('mu2')
-  , util        = require('util');
+  , util        = require('util')
+  , proxies    = JSON.parse(fs.readFileSync(path.join(__dirname, 'proxies.json'))) // the proxies.json file
+  , routerData = {}
+    routesList = {};
 
-var configData =
+
+prox.config.argv(); // conf source: arguments is most important
+prox.config.env();  // then env vars
+prox.config.file({ file: path.join(__dirname, 'config.json') }); // lastly, our config.json file
+
+
+console.log(proxies);
+
+for (var i=0; i<proxies.length; i++)
 {
-  "server_name" : "proxy-service",
-  "proxies" : [
-    {
-      "name" : "Proxy Service Listing",
-      "hostname" : "www.127.0.0.1.xip.io",
-      "remote" : "127.0.0.1:5000"
-    },
-    {
-      "name" : "Sickbeard",
-      "hostname" : "sb.127.0.0.1.xip.io",
-      "remote" : "NASpi.ali:8081"
-    }
-  ]
-};
-
-var routerData = {}
-  , routesList = {};
-
-for (var i=0; i<configData.proxies.length; i++)
-{
-  var hostname = configData.proxies[i].hostname;
-  var remote = configData.proxies[i].remote;
+  var hostname = proxies[i].hostname;
+  var remote = proxies[i].remote;
   routesList[hostname] = remote;
   console.info("routesList: " + JSON.stringify(routesList));
 };
@@ -58,14 +52,14 @@ console.info('Proxy Server running at Port 80');
 http.createServer(function (req, res) {
   var stream = mu.compileAndRender('index.mustache', configData);
   util.pump(stream, res);
-  util.log('Served index.html');
+  prox.log('info', 'Served index.html');
 }).listen(5000, '127.0.0.1');
-console.info('Directory Listing Server running at http://127.0.0.1:5000/');
+console.info('Directory Listing Server running at http://127.0.0.1:11111/');
 
 //
 // Telnet Interface
 //
 
 var server = net.createServer(function (socket) {
-	socket.write('Welcome to the Telnet server!');
-}).listen(8888);
+	socket.write('Welcome to the Proxy Viewer!');
+}).listen(18888);
