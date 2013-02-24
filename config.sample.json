@@ -1,0 +1,5 @@
+{
+  "name" : "proxy-service",
+	"proxy-port": 80,
+	"listing-port": 8888
+}

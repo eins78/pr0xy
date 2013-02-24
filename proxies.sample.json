@@ -1,0 +1,16 @@
+{
+  "proxies" : [
+    {
+      "name" : "Proxy Service Listing",
+      "hostname" : "www.127.0.0.1.xip.io",
+      "remote" : "127.0.0.1:8888",
+      "description" : "This lists all non-private proxies served by this program."
+    },
+    {
+      "name" : "Example",
+      "description" : "This works on your local machine thanks to xip.io",
+      "hostname" : "example.127.0.0.1.xip.io",
+      "remote" : "localhost:8080"
+    }
+  ]
+}
