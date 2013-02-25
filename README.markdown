@@ -2,6 +2,8 @@
 
 simple frontend for [`http-proxy`](https://github.com/nodejitsu/node-http-proxy), go read all about there.
 
+![Screenshot](https://github.com/eins78/proxy.js/raw/gh-pages/images/Screen_Shot_2013-02-26_at_00.39.04.png)
+
 ## features
 
 - [`proxies.json`](https://github.com/eins78/proxy.js/blob/master/config/proxies.json) config file with metadata (`name`, etc.)
