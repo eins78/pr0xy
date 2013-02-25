@@ -14,7 +14,7 @@ var net         = require('net'),
     fs          = require('fs'),
     exec        = require('child_process').exec,
     httpProxy   = require('http-proxy'),
-    prox        = require('flatiron').app,
+    app        = require('flatiron').app,
     mu          = require('mu2'),
     util        = require('util'),
     proxies    = JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'proxies.json')))["proxies"], // the proxies.json file
@@ -22,17 +22,17 @@ var net         = require('net'),
     routingTable = {};
 
 
-prox.config.argv(); // conf source: arguments is most important
-prox.config.env();  // then env vars
+app.config.argv(); // conf source: arguments is most important
+app.config.env();  // then env vars
 // lastly, our config.json file
-prox.config.file({ file: path.join(__dirname, 'config', 'config.json') });
+app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
 
 
 // get system info
 var sysStr = "";
 exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r)',
   function(err, stdout, stderr) {
-    prox.config.set('system', stdout || "unknown");
+    app.config.set('system', stdout || "unknown");
 });
 
 
@@ -64,8 +64,10 @@ http.createServer(function (req, res) {
   
   // is the hostname in our routing table?
   if (routingTable.router[req.headers.host]) {
+    
     // if it is, we have our remote!
     var remote = routingTable.router[req.headers.host];
+    
     // extract the hostname and port
     cnf.host = remote.substring(0, remote.indexOf(':'));
     cnf.port = remote.substring(remote.indexOf(':') + 1);
