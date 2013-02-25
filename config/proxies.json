@@ -1,16 +1,22 @@
 {
   "proxies" : [
     {
-      "name" : "Proxy Service Listing",
-      "hostname" : "www.127.0.0.1.xip.io",
-      "remote" : "127.0.0.1:8888",
-      "description" : "This lists all non-private proxies served by this program."
-    },
-    {
-      "name" : "Example",
+      "name" : "Example 3000",
       "description" : "This works on your local machine thanks to xip.io",
       "hostname" : "thirtyhundred.127.0.0.1.xip.io",
       "remote" : "localhost:3000"
+    },
+    {
+      "name" : "Example 5000",
+      "description" : "This works on your local machine thanks to xip.io",
+      "hostname" : "example5000.127.0.0.1.xip.io",
+      "remote" : "localhost:5000"
+    },
+    {
+      "name" : "Example 8080",
+      "description" : "This works on your local machine thanks to xip.io",
+      "hostname" : "eightyeighty.127.0.0.1.xip.io",
+      "remote" : "localhost:8080"
     }
   ]
 }
