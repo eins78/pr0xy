@@ -23,7 +23,8 @@ var net         = require('net'),
 
 prox.config.argv(); // conf source: arguments is most important
 prox.config.env();  // then env vars
-prox.config.file({ file: path.join(__dirname, 'config.json') }); // lastly, our config.json file
+// lastly, our config.json file
+prox.config.file({ file: path.join(__dirname, 'config', 'config.json') }); 
 
 
 console.log(proxies);
@@ -59,11 +60,3 @@ http.createServer(function (req, res) {
   util.pump(stream, res);
 }).listen(prox.config.get('listing-port'), '127.0.0.1');
 console.info('Directory Listing Server running at http://127.0.0.1:' +  prox.config.get('listing-port') + '/');
-
-//
-// Telnet Interface
-//
-
-// var server = net.createServer(function (socket) {
-//   socket.write('Welcome to the Proxy Viewer!');
-// }).listen(prox.config.get('telnet-port'));

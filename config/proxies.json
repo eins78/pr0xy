@@ -9,8 +9,8 @@
     {
       "name" : "Example",
       "description" : "This works on your local machine thanks to xip.io",
-      "hostname" : "example.127.0.0.1.xip.io",
-      "remote" : "localhost:8080"
+      "hostname" : "thirtyhundred.127.0.0.1.xip.io",
+      "remote" : "localhost:3000"
     }
   ]
 }
