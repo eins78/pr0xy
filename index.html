@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Proxy.js by eins78</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Proxy.js</h1>
+        <p>simple frontend for http-proxy with integrated listing</p>
+
+        <p class="view"><a href="https://github.com/eins78/proxy.js">View the Project on GitHub <small>eins78/proxy.js</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/eins78/proxy.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/eins78/proxy.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/eins78/proxy.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1><code>proxy.js</code></h1>
+
+<p>simple frontend for <a href="https://github.com/nodejitsu/node-http-proxy"><code>http-proxy</code></a>, go read all about there.</p>
+
+<h2>features</h2>
+
+<ul>
+<li>
+<a href="https://github.com/eins78/proxy.js/blob/master/config/proxies.json"><code>proxies.json</code></a> config file with metadata (<code>name</code>, etc.)</li>
+<li>implements the proxy within node.js http server</li>
+<li>has a built-in listing of all proxies</li>
+<li>server falls back to listing (if you somehow reache the <code>IP:port</code> of the server, you'll get an answer)</li>
+</ul><h2>run</h2>
+
+<pre><code>git clone git://github.com/eins78/proxy.js.git
+cd proxy.js
+vim config/config.json
+vim config/proxies.json
+echo 'use sudo to run on port 80!'
+node proxy.js
+</code></pre>
+
+<p>Showing internal IP:port in the listing can be turned of by setting <code>{ "public": true }</code> in <a href="https://github.com/eins78/proxy.js/blob/master/config/config.json"><code>config.json</code></a>.</p>
+
+<h2>license</h2>
+
+<p><a href="http://www.opensource.org/licenses/MIT">MIT</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/eins78">eins78</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
