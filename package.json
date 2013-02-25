@@ -1,6 +1,6 @@
 { 
   "name": "proxy-service",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
 		"http-proxy" : ">=0.8.7",
     "flatiron": "0.3.3",
