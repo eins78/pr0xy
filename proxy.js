@@ -55,12 +55,8 @@ var proxy = new httpProxy.RoutingProxy();
 http.createServer(function (req, res) {  
   console.log("req for: ", req.headers.host);
   
-  // the default config (the listing)
-  // is used if no remote is found for the hostname
-  var cnf = {
-    "host": "localhost",
-    "port": prox.config.get('listing-port') || 8888
-  };
+  // config for the proxy
+  var cnf = {};
   
   // is the hostname in our routing table?
   if (routingTable.router[req.headers.host]) {
@@ -71,24 +67,24 @@ http.createServer(function (req, res) {
     // extract the hostname and port
     cnf.host = remote.substring(0, remote.indexOf(':'));
     cnf.port = remote.substring(remote.indexOf(':') + 1);
+    
+    console.log(cnf);
+    proxy.proxyRequest (req, res, cnf);    
+
+  } else {  // host is not in the routing table! 
+    
+    // we serve the listing!
+    var stream = mu.compileAndRender('index.mustache', {
+      "server_name": app.config.get('name'),
+      "server": app.config.get('server'),
+      "system": app.config.get('system'),
+      "hello-msg": app.config.get('hello-msg'),
+      "secret": !app.config.get('public'),
+      "proxies": proxies
+    });
+    
+    util.pump(stream, res);
+    
   }
-  console.log(cnf);
-  proxy.proxyRequest (req, res, cnf);    
-
 // after creation, server listens on configured port
-}).listen(prox.config.get('proxy-port'));
-
-
-// Built-in HTTP Server for Service listing
-http.createServer(function (req, res) {
-  var stream = mu.compileAndRender('index.mustache', {
-    "server_name": prox.config.get('name'),
-    "server": prox.config.get('server'),
-    "system": prox.config.get('system'),
-    "hello-msg": prox.config.get('hello-msg'),
-    "secret": !prox.config.get('public'),
-    "proxies": proxies
-  });
-  util.pump(stream, res);
-}).listen(prox.config.get('listing-port'), '127.0.0.1');
-console.info('Directory Listing Server running at http://127.0.0.1:' +  prox.config.get('listing-port') + '/');
+}).listen(app.config.get('proxy-port'));
