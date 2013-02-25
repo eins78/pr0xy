@@ -30,7 +30,7 @@ app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
 
 // get system info
 var sysStr = "";
-exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r)',
+exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r; echo "node.js:"; node -v)',
   function(err, stdout, stderr) {
     app.config.set('system', stdout || "unknown");
 });
