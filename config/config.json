@@ -1,5 +1,8 @@
 {
-  "name" : "proxy-service",
-	"proxy-port": 80,
-	"listing-port": 8888
+  "name": "proxy.js",
+  "hello-msg": "o hai!",
+  "proxy-port": 80,
+  "listing-port": 8888,
+  "server": "proxy.js",
+  "public": false
 }

@@ -12,6 +12,7 @@ var net         = require('net'),
     http        = require('http'),
     path        = require('path'),
     fs          = require('fs'),
+    exec        = require('child_process').exec,
     httpProxy   = require('http-proxy'),
     prox        = require('flatiron').app,
     mu          = require('mu2'),
@@ -24,7 +25,16 @@ var net         = require('net'),
 prox.config.argv(); // conf source: arguments is most important
 prox.config.env();  // then env vars
 // lastly, our config.json file
-prox.config.file({ file: path.join(__dirname, 'config', 'config.json') }); 
+prox.config.file({ file: path.join(__dirname, 'config', 'config.json') });
+
+
+// get system info
+var sysStr = "";
+exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r)',
+  function(err, stdout, stderr) {
+    prox.config.set('system', stdout || "unknown");
+});
+
 
 // build the routing table
 var routingTable = {};
@@ -45,14 +55,19 @@ var proxy = new httpProxy.RoutingProxy();
 http.createServer(function (req, res) {  
   console.log("req for: ", req.headers.host);
   
+  // the default config (the listing)
+  // is used if no remote is found for the hostname
   var cnf = {
     "host": "localhost",
     "port": prox.config.get('listing-port') || 8888
   };
   
+  // is the hostname in our routing table?
   if (routingTable.router[req.headers.host]) {
-    cnf.host = req.headers.host;
+    // if it is, we have our remote!
     var remote = routingTable.router[req.headers.host];
+    // extract the hostname and port
+    cnf.host = remote.substring(0, remote.indexOf(':'));
     cnf.port = remote.substring(remote.indexOf(':') + 1);
   }
   console.log(cnf);
@@ -66,6 +81,10 @@ http.createServer(function (req, res) {
 http.createServer(function (req, res) {
   var stream = mu.compileAndRender('index.mustache', {
     "server_name": prox.config.get('name'),
+    "server": prox.config.get('server'),
+    "system": prox.config.get('system'),
+    "hello-msg": prox.config.get('hello-msg'),
+    "secret": !prox.config.get('public'),
     "proxies": proxies
   });
   util.pump(stream, res);
