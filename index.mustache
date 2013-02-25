@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>hai</title>
+    <title>{{server_name}}> "{{hello-msg}}"</title>
     <!-- Bootstrap from CDN-->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.no-icons.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet">
+    <!-- webfonts from google-->
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic|Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Source+Code+Pro:200,300,400,500,600,700,900' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <style type="text/css">
-    body { width: 35%; margin: 4em auto; background: hsl(0, 0%, 66%); }
-    article {
+    body { 
+      margin: 4em auto;
+      background: hsl(0, 0%, 66%);
+      /*font-family: 'Source Sans Pro', sans-serif;*/
+      font-family: 'Lato', sans-serif;
+      font-size: 12pt;
+      text-align: center;
+      color: hsl(0, 0%, 22%);
+    }
+    a, a:link, a:active {
+      color: hsl(180, 100%, 28%);
+    }
+    a:hover {
+      color: hsl(180, 100%, 18%);
+    }
+    h1,
+    .table th {
+      font-weight: 500;
+    }
+    .table td {
+      font-weight: 200;
+    }
+    article, footer {
+      width: 62%;
+      {{^secret}} {{! only rendered if public }}
+      min-width: 400px;
+      max-width: 550px;
+      {{/secret}}
+      {{#secret}} {{! only rendered if not public }}
+      min-width: 470px;
+      max-width: 650px;
+      {{/secret}}
       background-color: 
       #fff;
       padding: 20px;
-      margin: 0 auto;
+      margin: 0 auto 1em auto;
       -webkit-border-radius: 6px;
       -moz-border-radius: 6px;
       border-radius: 6px;
@@ -21,17 +53,57 @@
       -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
       box-shadow: 0 1px 2px rgba(0,0,0,.15);
     }
+    footer {
+      background-color: hsl(0, 0%, 22%);
+    }
+    kbd, code, tt, pre {
+      font-family: 'Source Code Pro', sans-serif;
+    }
+    table tr th:first-child, table tr td:first-child {
+      text-align: left;
+    }
+    table tr th:last-child, table tr td:last-child {
+      text-align: right;
+    }
     </style>
     <article>
       <h1>{{server_name}}</h1>
+      <p><kbd>"{{hello-msg}}"</kbd></p>
+            
       <table class="table table-hover">
-        <tr><th>Proxy Name</th><th>Proxy Hostname</th><th>Proxy Remote</th></tr>
-      {{#proxies}}
-        <tr><td><a href="http://{{hostname}}">{{name}}</a></td><td><a href="http://{{hostname}}">{{hostname}}</a></td><td>{{remote}}</td></tr>
-      {{/proxies}}
+        <tr>
+          <th>Proxy Name</th>
+          <th>Proxy Hostname</th>
+          
+          {{#secret}} {{! only rendered if not public }}
+          <th>Proxy Remote</th>
+          {{/secret}}
+          
+        </tr>
+        
+        {{#proxies}} {{! only rendered if there are proxies }}
+        <tr>
+          <td><a href="http://{{hostname}}">{{name}}</a></td>
+          <td><a href="http://{{hostname}}">{{hostname}}</a></td>
+          
+          {{#secret}} {{! only rendered if not public }}
+          <td><span class="badge badge-inverse"><kbd>{{remote}}</kbd></span></td>
+          {{/secret}}
+          
+        </tr>
+        {{/proxies}}
       </table>
+      
     </article>
+    
+    <footer>
+      <small class="muted">
+        <kbd>{{server}} running on {{system}}<kbd>
+      </small>
+    </footer>
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+    
   </body>
 </html>
