@@ -4,6 +4,7 @@
   "dependencies": {
 		"http-proxy" : ">=0.8.7",
     "flatiron": "0.3.3",
-		"mu2": "0.5.x"
+		"mu2": "0.5.x",
+		"cradle":"0.6.4"
 	}
 }

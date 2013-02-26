@@ -27,6 +27,9 @@ app.config.env();  // then env vars
 // lastly, our config.json file
 app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
 
+if (app.config.get('couch')) {
+  app.use(require('./lib/couch'));  
+}
 
 var listingData = {};
 
@@ -49,7 +52,6 @@ exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r; echo "node.js:";
         "msg"   : JSON.stringify("Testing alerts!")
       }
     };
-    
 });
 
 
@@ -106,3 +108,12 @@ httpProxy.createServer(function (req, res, proxy) {
   }
   
 }).listen(app.config.get('proxy-port'));
+
+// save state to couchdb
+app.db.get('state', function(err, res) {
+    // console.log(err || res);
+    app.db.save('state', { "listingData": listingData, "router": routingTable.router },
+      function (err, res) {
+        console.log(err || res);
+    }); 
+});
