@@ -8,18 +8,18 @@
 */
 
 
-var net         = require('net'),
-    http        = require('http'),
-    path        = require('path'),
-    fs          = require('fs'),
-    exec        = require('child_process').exec,
-    httpProxy   = require('http-proxy'),
-    app        = require('flatiron').app,
-    mu          = require('mu2'),
-    util        = require('util'),
-    proxies    = JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'proxies.json')))["proxies"], // the proxies.json file
-    routingTable = {},
-    routingTable = {};
+var net           = require('net'),
+    http          = require('http'),
+    path          = require('path'),
+    fs            = require('fs'),
+    exec          = require('child_process').exec,
+    httpProxy     = require('http-proxy'),
+    app           = require('flatiron').app,
+    mu            = require('mu2'),
+    util          = require('util'),
+    proxies       = JSON.parse(fs.readFileSync(path.join(__dirname, 'config', 'proxies.json')))["proxies"], // the proxies.json file
+    routingTable  = {},
+    routingTable  = {};
 
 
 app.config.argv(); // conf source: arguments is most important
@@ -28,31 +28,53 @@ app.config.env();  // then env vars
 app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
 
 
-// get system info
-var sysStr = "";
+var listingData = {};
+
+// prepare listing data
+  // get system info
 exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r; echo "node.js:"; node -v)',
-  function(err, stdout, stderr) {
-    app.config.set('system', stdout || "unknown");
+  function (err, stdout, stderr) {
+    var sysinfo = stdout || "unknown";
+    
+    // build listing data
+    listingData = {
+      "server_name": app.config.get('name'),
+      "server": app.config.get('server'),
+      "system": sysinfo,
+      "hello-msg": app.config.get('hello-msg'),
+      "secret": !app.config.get('public'),
+      "proxies": proxies,
+      "alert": {
+        "type"  : "info",
+        "msg"   : JSON.stringify("Testing alerts!")
+      }
+    };
+    
 });
 
 
 // build the routing table
 var routingTable = {};
-routingTable.router = {};
+(function buildRoutingTable() {
+  routingTable.router = {};
 
-for (var i=0; i<proxies.length; i++)
-{
-  routingTable.router[proxies[i].hostname] = proxies[i].remote;
-};
-
-console.info("routingTable: " + JSON.stringify(routingTable))
-
+  for (var i=0; i<proxies.length; i++)
+  {
+    routingTable.router[proxies[i].hostname] = proxies[i].remote;
+  };
+  
+})();
 
 // Create a new instance of HttProxy to use in your server
-var proxy = new httpProxy.RoutingProxy();
-
-// Create a regular http server and proxy its handler
-http.createServer(function (req, res) {  
+var // proxy = new httpProxy.RoutingProxy(),
+  
+    serveListing = function(res, listingData) {
+      stream = mu.compileAndRender('index.mustache', listingData);    
+      util.pump(stream, res);
+    };
+    
+// Create a httpProxy server and proxy its handler
+httpProxy.createServer(function (req, res, proxy) {  
   console.log("req for: ", req.headers.host);
   
   // config for the proxy
@@ -69,22 +91,18 @@ http.createServer(function (req, res) {
     cnf.port = remote.substring(remote.indexOf(':') + 1);
     
     console.log(cnf);
-    proxy.proxyRequest (req, res, cnf);    
-
-  } else {  // host is not in the routing table! 
+    proxy.proxyRequest (req, res, cnf);
     
-    // we serve the listing!
-    var stream = mu.compileAndRender('index.mustache', {
-      "server_name": app.config.get('name'),
-      "server": app.config.get('server'),
-      "system": app.config.get('system'),
-      "hello-msg": app.config.get('hello-msg'),
-      "secret": !app.config.get('public'),
-      "proxies": proxies
+    proxy.on('end', function() {
+      console.log("The request was proxied.");
     });
     
-    util.pump(stream, res);
+
+  } else {  // host is not in the routing table, 
+    // we serve the listing!
+
+    serveListing(res, listingData);
     
   }
-// after creation, server listens on configured port
+  
 }).listen(app.config.get('proxy-port'));
