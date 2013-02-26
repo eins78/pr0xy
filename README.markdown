@@ -2,7 +2,7 @@
 
 simple frontend for [`http-proxy`](https://github.com/nodejitsu/node-http-proxy), go read all about there.
 
-![Screenshot](https://github.com/eins78/proxy.js/raw/gh-pages/images/Screen_Shot_2013-02-26_at_00.39.04.png)
+![Screenshot](https://github.com/eins78/proxy.js/raw/gh-pages/images/Screen_Shot_2013-02-26_at_01.02.33.png)
 
 ## features
 
