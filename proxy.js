@@ -32,7 +32,7 @@ var listingData = {};
 
 // prepare listing data
   // get system info
-exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r; echo "node.js:"; node -v)',
+exec('echo $(uname -n; uname -o 2>/dev/null || uname; uname -r; echo ""; echo "node.js:"; node -v)',
   function (err, stdout, stderr) {
     var sysinfo = stdout || "unknown";
     
