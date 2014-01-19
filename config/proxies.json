@@ -1,10 +1,11 @@
 {
   "proxies" : [
     {
-      "name" : "Example 3000",
+      "name"        : "Example 3000",
       "description" : "This works on your local machine thanks to xip.io",
-      "hostname" : "thirtyhundred.127.0.0.1.xip.io",
-      "remote" : "localhost:3000"
+      "hostname"    : "thirtyhundred.127.0.0.1.xip.io",
+      "remote"      : "localhost:3000",
+      "protocol"    : "http"
     },
     {
       "name" : "Example 5000",

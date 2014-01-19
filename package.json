@@ -1,9 +1,12 @@
-{ 
+{
   "name": "proxy-service",
-  "version": "0.1.1",
+  "version": "1.0.0-alpha",
   "dependencies": {
-		"http-proxy" : ">=0.8.7",
+    "http-proxy": ">=0.8.7",
     "flatiron": "0.3.3",
-		"mu2": "0.5.x"
-	}
+    "mu2": "0.5.x",
+    "fs-extra": "~0.8.1",
+    "graceful-fs": "~2.0.1",
+    "underscore": "~1.5.2"
+  }
 }

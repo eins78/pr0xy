@@ -29,7 +29,8 @@
       {{#alert}}  {{! only rendered if there was an error }}
       <div class="alert {{#type}}alert-{{type}}{{/type}}">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-         <kbd>{ {{#type}}"<strong>{{type}}</strong>" :{{/type}} {{msg}} }</kbd>
+         <kbd>{ {{#type}}"{{type}}":{{/type}} "<strong>{{title}}</strong>"{{#host}},<br>  "host": "<strong>{{host}}</strong>"{{/host}}{{#msg}},<br>  "msg": "<strong>{{msg}}</strong>"{{/msg}}{{#remote}},<br>  "remote": "<strong>{{remote}}</strong>"{{/remote}} }
+       </kbd>
       </div>
       {{/alert}}
       
