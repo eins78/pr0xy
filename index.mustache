@@ -2,89 +2,29 @@
 <html>
   <head>
     <title>{{server_name}}> "{{hello-msg}}"</title>
-    <!-- Bootstrap from CDN-->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet">
-    <!-- webfonts from google-->
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400|Source+Code+Pro' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <style type="text/css">
-    body { 
-      margin: 4em auto;
-      background: hsl(0, 0%, 66%);
-      font-family: 'Lato', sans-serif;
-      font-size: 12pt;
-      text-align: center;
-      color: hsl(0, 0%, 22%);
-    }
-    kbd, code, tt, pre {
-      font-family: 'Source Code Pro', sans-serif;
-      font-weight: 400; /*Source Code Pro Normal*/
-    }
-    h1,
-    .table th {
-      font-weight: 400; /*Lato Normal*/
-    }
-    .table td {
-      font-weight: 300; /*Lato Book*/
-    }
-    .table tr th, .table tr td {
-      text-align: center;
-    }
-    .table tr th:first-child, .table tr td:first-child {
-      text-align: left;
-    }
-    .table tr th:last-child, .table tr td:last-child {
-      text-align: right;
-    }
-    .alert {
-      text-align: inherit;
-    }
-    .alert-danger, .alert-error {
-      color: hsl(8, 62%, 39%);
-      background-color: hsl(6, 62%, 82%);
-      border-color: hsl(6, 40%, 75%);
-    }
-    a, a:link, a:active {
-      color: hsl(180, 100%, 28%);
-    }
-    a:hover {
-      color: hsl(180, 100%, 18%);
-    }
-    header {
-      padding-bottom: 1em;
-    }
-    article, footer {
-      width: 62%;
-      {{^secret}} {{! only rendered if public }}
+    <!-- generic webapp shit-->
+    <link href='//eins78.github.com/appstrakt/style.css' rel='stylesheet' type='text/css'>
+    <style>
+    header, section, article, footer {
+    {{^secret}} {{! only rendered if public }}
       min-width: 400px;
       max-width: 550px;
-      {{/secret}}
-      {{#secret}} {{! only rendered if not public }}
+    {{/secret}}
+    {{#secret}} {{! only rendered if not public }}
       min-width: 470px;
       max-width: 650px;
-      {{/secret}}
-      background-color: 
-      #fff;
-      padding: 20px;
-      margin: 0 auto 1em auto;
-      -webkit-border-radius: 6px;
-      -moz-border-radius: 6px;
-      border-radius: 6px;
-      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-      box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    }
-    footer {
-      background-color: hsl(0, 0%, 22%);
+    {{/secret}}
     }
     </style>
+  </head>
+  <body>
+    
+    <header>
+      <h1></small> {{server_name}}</h1>
+      <p><kbd>"{{hello-msg}}"</kbd></p>
+    </header>
+    
     <article>
-      <header>
-        <h1>{{server_name}}</h1>
-        <p><kbd>"{{hello-msg}}"</kbd></p>
-      </header>
       
       {{#alert}}  {{! only rendered if there was an error }}
       <div class="alert {{#type}}alert-{{type}}{{/type}}">
